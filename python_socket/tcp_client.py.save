@@ -1,0 +1,36 @@
+from socket import *
+import RPi.GPIO as GPIO
+
+gpio.setmode(GPIO.BCM)
+gpio.setup(19, GPIO.OUT)
+
+
+ip = '192.168.43.249'
+
+port = 80
+
+clientSocket = socket(AF_INET, SOCK_STREAM)
+
+clientSocket.connect(ip, port)
+
+while True:
+	cntlMsg = clientSocket.recv(1)
+	cntlMsg = cntlMsg.decode('utf-8'))
+	cntlMsg.upper()
+
+	if cntlMsg == 'L':
+		cntlFlag = '1000'
+	elif cntlMsg == 'R':
+		cntlFlag = '0010'
+	elif cntlMsg == 'F':
+		cntlFlag = '1010'
+	elif cntlMsg == 'N':
+		cntlFlag = '0000'
+	elif cntlMsg == 'B':
+		cntlFlag = '0101'
+	else:
+		
+	leftMoterFlag = cntlFlag[0:2]
+	rightMoterFlag = cntlFlag[2:4]
+	
+	
