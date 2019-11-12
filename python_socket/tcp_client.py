@@ -54,9 +54,9 @@ try:
         print(cntlMsg)
 
         if cntlMsg == 'L':
-            cntlFlag = [HIGH, LOW, LOW, LOW]
-        elif cntlMsg == 'R':
             cntlFlag = [LOW, LOW, HIGH, LOW]
+        elif cntlMsg == 'R':
+            cntlFlag = [HIGH, LOW, LOW, LOW]
         elif cntlMsg == 'F':
             cntlFlag = [HIGH, LOW, HIGH, LOW]
         elif cntlMsg == 'N':
@@ -75,9 +75,9 @@ try:
         
         GPIO.output(leftMotar[0], leftMotarFlag[0])
         GPIO.output(leftMotar[1], leftMotarFlag[1])
-        GPIO.output(rightMotar[0], LOW)
-        GPIO.output(rightMotar[1], LOW)
-        
+        GPIO.output(rightMotar[0], rightMotarFlag[0])
+        GPIO.output(rightMotar[1], rightMotarFlag[1])
+   
         
         cntlFlag = []
     
