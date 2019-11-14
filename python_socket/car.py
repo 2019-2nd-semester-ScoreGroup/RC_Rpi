@@ -47,56 +47,58 @@ def run():
     try:
         serverSocket.bind(addr)
     except:
-        connectNet()
+        print("socket bind fail")
         
     serverSocket.listen(1)
     connectionSocket, connectAddr = serverSocket.accept();
     
     print("connect")
 
-    try:
-        while True:
-            cntlFlag = [LOW, LOW, LOW, LOW]
+    while True:
+        cntlFlag = [LOW, LOW, LOW, LOW]
+        
+        try:
             cntlMsg = connectionSocket.recv(1)
-            cntlMsg = cntlMsg.decode('utf-8')
+        except:
+            print("receive error")
+            
+        cntlMsg = cntlMsg.decode('utf-8')
        
-            if cntlMsg == 'E':
-                close = True
-            elif cntlMsg == 'L':
-                cntlFlag = [LOW, LOW, HIGH, LOW]
-            elif cntlMsg == 'R':
-                cntlFlag = [HIGH, LOW, LOW, LOW]
-            elif cntlMsg == 'F':
-                cntlFlag = [HIGH, LOW, HIGH, LOW]
-            elif cntlMsg == 'N':
-                cntlFlag = [LOW, LOW, LOW, LOW]
-            elif cntlMsg == 'B':
-                cntlFlag = [LOW, HIGH, LOW, HIGH]
-            else:                
-                cnt1 = int(cntlMsg)
-                cnt2 = int(cntlMsg)   
+        if cntlMsg == 'E':
+            close = True
+        elif cntlMsg == 'L':
+            cntlFlag = [LOW, LOW, HIGH, LOW]
+        elif cntlMsg == 'R':
+            cntlFlag = [HIGH, LOW, LOW, LOW]
+        elif cntlMsg == 'F':
+            cntlFlag = [HIGH, LOW, HIGH, LOW]
+        elif cntlMsg == 'N':
+            cntlFlag = [LOW, LOW, LOW, LOW]
+        elif cntlMsg == 'B':
+            cntlFlag = [LOW, HIGH, LOW, HIGH]
+        else:                
+            cnt1 = int(cntlMsg)
+            cnt2 = int(cntlMsg)   
                                 
-            #pwm1.changeDutyCycle(cnt1)
-            #pwm2.changeDutyCycle(cnt2)
-            print("asd")
-            leftMotorFlag = cntlFlag[0:2]
-            rightMotorFlag = cntlFlag[2:4]    
-            print("dsa")
-            GPIO.output(leftMotor[0], leftMotorFlag[0])
-            GPIO.output(leftMotor[1], leftMotorFlag[1])
-            GPIO.output(rightMotor[0], rightMotorFlag[0])
-            GPIO.output(rightMotor[1], rightMotorFlag[1])
-            print("efg")
-    except:
-        print("in,output error")    
+        pwm1.ChangeDutyCycle(cnt1)
+        pwm2.ChangeDutyCycle(cnt2)
 
-    if close:
-        connectionSocket.close()
-        serverSocket.close()
-        pwm1.stop()
-        pwm2.stop()
-        GPIO.cleanup()
-        sys.exit()
+        leftMotorFlag = cntlFlag[0:2]
+        rightMotorFlag = cntlFlag[2:4]    
+
+        GPIO.output(leftMotor[0], leftMotorFlag[0])
+        GPIO.output(leftMotor[1], leftMotorFlag[1])
+        GPIO.output(rightMotor[0], rightMotorFlag[0])
+        GPIO.output(rightMotor[1], rightMotorFlag[1])
+
+
+        if close == True:
+            connectionSocket.close()
+            serverSocket.close()
+            pwm1.stop()
+            pwm2.stop()
+            GPIO.cleanup()
+            sys.exit()
     
 if __name__ == "__maiin__":    
     run()
