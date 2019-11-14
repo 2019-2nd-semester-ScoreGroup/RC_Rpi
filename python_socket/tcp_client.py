@@ -33,9 +33,9 @@ pwm2 = GPIO.PWM(enableButton[1], cnt2)
 pwm1.start(cnt1)
 pwm2.start(cnt2)
 
-ip = '192.168.43.7'
+ip = '192.168.43.249'
 
-port = 43566
+port = 43567
 
 addr = (ip,port)
 
