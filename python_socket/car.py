@@ -87,23 +87,24 @@ port = 54321
         
 addr = (ip, int(port))
  
-print("ip, port :" + addr)
+print("ip, port :" + ip + ", ", port)
 
 #bind Server socket
 while True:
-    try:
-        serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        print("Make server socket")
+    while True:
+        try:
+            serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            print("Make server socket")
         
-        serverSocket.bind(addr)
-        print("binded socket")
-        break
+            serverSocket.bind(addr)
+            print("binded socket")
+            break
     
-    except:
-        print("reconnect")
-        time.sleep(2)
-        serverSocket.close()
-        continue
+        except:
+            print("reconnect")
+            time.sleep(2)
+            serverSocket.close()
+            continue
     
     #waiting for client socket(1)    
     serverSocket.listen(1)
